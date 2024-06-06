@@ -7,7 +7,7 @@ import { ADD_dim } from '../request/AddDim'
 struct DimissionPage {
   @State message: string = '离职申请'
 
-  @State dimuser:DimUser=new DimUser(0,'','','','',0,'',0,'','','','')
+  @State dimuser:DimUser=new DimUser()
   @State queryType: string = '男';
   private selectedDate: Date = new Date()
 
@@ -25,6 +25,7 @@ struct DimissionPage {
       try {
         const employeeData=JSON.parse(employeeJson)
         this.employee=employeeData
+        this.dimuser.emp_ID=this.employee.emp_ID
         this.dimuser.emp_name=this.employee.emp_name
         this.empId=this.employee.emp_ID.toString()
         console.log('empId:'+this.empId)
@@ -136,7 +137,7 @@ struct DimissionPage {
         Text('离职日期')
           .fontSize(20)
 
-        Button(this.dimuser.dim_date|| ' 年 / 月 / 日 ')
+        Button(this.dimuser.process_date|| ' 年 / 月 / 日 ')
           .backgroundColor('#F5F5F5')
           .fontColor('#459ED4')
           .onClick(() => {
@@ -148,7 +149,7 @@ struct DimissionPage {
                 // 通过Date的setFullYear方法设置按下确定按钮时的日期，这样当弹窗再次弹出时显示选中的是上一次确定的日期
                 this.selectedDate.setFullYear(value.year, value.month, value.day)
                 console.info("DatePickerDialog:onAccept()" + JSON.stringify(value))
-                this.dimuser.dim_date = `${value.year}-${value.month + 1}-${value.day}`
+                this.dimuser.process_date = `${value.year}-${value.month + 1}-${value.day}`
               }
             })
           })
@@ -166,7 +167,7 @@ struct DimissionPage {
       Row(){
         TextArea({placeholder:'请输入该员工离职的相关原因'})
           .onChange((value)=>{
-            this.dimuser.dim_reason=value
+            this.dimuser.reason=value
           })
           .placeholderColor('#C3C3C3')
           .width('90%')
@@ -177,21 +178,25 @@ struct DimissionPage {
       Button('提交')
         .onClick(() => {
           //调用接口，离职
+          this.dimuser.gender=this.employee.gender
+          this.dimuser.pos_name=this.employee.pos_name
+          this.dimuser.pos_ID=this.employee.pos_ID
+          this.dimuser.dep_ID=this.employee.dep_ID
+          this.dimuser.dep_name=this.employee.dep_name
+          this.dimuser.process_state='待处理'
+          this.dimuser.date=this.employee.date
+
           ADD_dim(this.dimuser)
             .then((response)=>{
-              if(response.toString()=='新增离职成功'){
+              if(response.toString()=='添加成功'){
                 AlertDialog.show({
                   title:'提示',
-                  message:'添加成功,是否继续添加',
+                  message:'申请成功',
                   primaryButton:{
-                    value:'返回',
+                    value:'确认',
                     action:()=>{
                       router.back()
                     }
-                  },
-                  secondaryButton:{
-                    value:'继续',
-                    action:()=>{}
                   }
                 })
               }
