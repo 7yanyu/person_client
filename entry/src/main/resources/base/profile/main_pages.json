@@ -1,0 +1,11 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/FirstPage",
+    "pages/MovePage",
+    "pages/DimissionPage",
+    "pages/TryPage",
+    "pages/HolidayPage",
+    "pages/ResetPasswordPage"
+  ]
+}
