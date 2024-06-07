@@ -1,0 +1,13 @@
+{
+  "src": [
+
+    "pages/Move/My_Move",
+    "pages/Try/My_Try",
+    "pages/Holiday/My_Holiday",
+    "pages/FirstPage",
+    "pages/Index",
+    "pages/DimissionPage",
+    "pages/ResetPasswordPage",
+    "pages/More_message"
+  ]
+}
