@@ -1,4 +1,4 @@
 
 export  function Baseurl():string{
-  return 'localhost:8080/'
+  return '182.92.245.184:8018/'
 }
